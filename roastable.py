@@ -37,10 +37,12 @@ def spn_lookup(address, dn, password):
 	except ldap3.core.exceptions.LDAPBindError as e:
 		print('LDAP Bind Failed: ', e) 
 
-
-if __name__ == '__main__':
+def main():
 	address = input("server: ")
 	domain = input("domain: ")
 	username = input("username: ")
 	password = getpass.getpass("password: ")
-	spn_lookup(address, "%s\%s" % (domain,username), password)
+	spn_lookup(address, "%s\%s" % (domain, username), password)
+
+if __name__ == '__main__':
+	main()
