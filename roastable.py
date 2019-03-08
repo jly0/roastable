@@ -30,7 +30,7 @@ def spn_lookup(address, dn, password):
 		if roastable != []:
 			buf = "       "
 			print ("\nFound %s potentially roastable users " % (x))
-			print ("   Account CNs:\n")
+			print ("   Account CNs:")
 			for user in roastable:
 				print (buf + user)
 
