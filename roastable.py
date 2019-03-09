@@ -5,14 +5,18 @@ import getpass
 #need to add some custom DN features, but this should work for the bulk of ya 
 
 
-def spn_lookup(address, dn, password):
+def spn_lookup(address, dn, password,custombasedn):
 	roastable = []
 	server = ldap3.Server(address, get_info=ldap3.ALL)
 
 	try: 
 		conn = ldap3.Connection(server, dn, password, authentication=ldap3.NTLM, auto_bind=True)
 		print('LDAP Bind Successful.')
-		basedn = vars(conn.server.info)['other']['defaultNamingContext'][0]
+		if custombasedn == "":
+			basedn = vars(conn.server.info)['other']['defaultNamingContext'][0]
+		else:
+			basedn = custombasedn
+		print (basedn)
 		print("The base search DN is: %s" % (basedn,))
 		print("Searching for roastable users...")
 
@@ -47,7 +51,8 @@ def main():
 	domain = input("Domain: ")
 	username = input("Bind user: ")
 	password = getpass.getpass("Bind password: ")
-	spn_lookup(address, f"{domain}\\{username}", password)
+	custombasedn = input("Leave blank or enter a custom base dn")
+	spn_lookup(address, f"{domain}\\{username}", password, custombasedn)
 
 
 if __name__ == '__main__':
